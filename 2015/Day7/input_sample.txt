@@ -1,0 +1,6 @@
+123 -> x
+1 -> p
+x OR p -> y
+x AND y -> d
+d LSHIFT 2 -> f
+NOT f -> e
