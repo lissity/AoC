@@ -1,26 +1,24 @@
 import hashlib
-key = 'bgvyzdsv'
 
-value = 0
+input = 'bgvyzdsv'
 
-# Part1
-while(True):
-    hashthis = key + str(value)
-    hash = hashlib.md5(hashthis.encode('utf-8')).hexdigest()
-    #print(hashthis +' : ' +hash)
-    if(hash[:5] == '00000'):
-        print(str(key) + str(value) + 'hashes to ' + hash)
-        print('Answer: ' + str(value))
+# Part 1
+counter = 0
+while True:
+    text = input + str(counter)
+    hash = hashlib.md5(str.encode(text)).hexdigest()
+    if (hash[0:5] == '00000'):
+        print('Part 1: Hashing', text, 'produces the hash',
+              hash, '-> Answer:', counter)
         break
-    value += 1
+    counter += 1
 
-# Part2
-while(True):
-    hashthis = key + str(value)
-    hash = hashlib.md5(hashthis.encode('utf-8')).hexdigest()
-    #print(hashthis +' : ' +hash)
-    if(hash[:6] == '000000'):
-        print(str(key) + str(value) + 'hashes to ' + hash)
-        print('Answer: ' + str(value))
+# Part 2
+while True:
+    text = input + str(counter)
+    hash = hashlib.md5(str.encode(text)).hexdigest()
+    if (hash[0:6] == '000000'):
+        print('Part 2: Hashing', text, 'produces the hash',
+              hash, '-> Answer:', counter)
         break
-    value += 1
+    counter += 1

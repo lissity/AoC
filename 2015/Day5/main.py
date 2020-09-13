@@ -1,83 +1,68 @@
-def check_vowels(string):
-    vowels = ['a','e','i','o','u']
-    vowel_count = 0
+def containsThreeVowels(string):
+    vowels = ['a', 'e', 'i', 'o', 'u']
+    vowelCount = 0
     for char in string:
-        if(char in vowels):
-            vowel_count += 1
-    if(vowel_count >= 3):
-        return True
-    else:
-        return False
+        if char in vowels:
+            vowelCount += 1
+        if vowelCount >= 3:
+            return True
+    return False
 
-def check_double_letter(string):
-    index = 0
-    double_letter_found = False
-    for char in range(0, len(string)-1):
-        next_char = string[char+1]
-        if(string[char] == next_char):
-            double_letter_found = True
-            break
-        index += 1
-    return double_letter_found
 
-def check_disallowed_combination(string):
-    disallowed = ['ab', 'cd', 'pq', 'xy']
-    index = 0
-    disallowed_ok = True
-    for char in range(0, len(string)-1):
-        next_char = string[char+1]
-        combo = string[char] + next_char
-        if combo in disallowed:
-            disallowed_ok = False
-            break
-        index += 1
-    return disallowed_ok
+def containsDoubleLetter(string):
+    for i in range(0, len(string)-1):
+        if(string[i] == string[i+1]):
+            return True
+    return False
 
-def check_two_pairs(string):
-    two_pairs_found = False
-    pairs = dict()
-    for i in range(0, len(string), 2):
-        pair = string[i] + string[i+1]
-        pairs[(i,i+1)] = pair
-    for i in range(1, len(string)-1, 2):
-        pair = string[i] + string[i+1]
-        pairs[(i,i+1)] = pair
-    for pair in pairs:
-        current_index = pair
-        current_combo = pairs[pair]
-        for pair2 in pairs:
-            if pairs[pair] == pairs[pair2] and\
-               pair[1] != pair2[0] and\
-               pair[0] != pair2[1] and\
-               pair[0] != pair2[0] and \
-               pair[1] != pair2[1]:
-                two_pairs_found = True
-                break
-    return two_pairs_found
 
-def check_repeat_letter(string):
-    repeat_found = False
+def containsForbiddenSubStrings(string):
+    forbidden = ['ab', 'cd', 'pq', 'xy']
+    for i in range(0, len(string)-1):
+        if string[i:i+2] in forbidden:
+            return True
+    return False
+
+
+def containsRepeatedLetter(string):
     for i in range(0, len(string)-2):
-        if(string[i] == string[i+2]):
-            repeat_found = True
-            break
-    return repeat_found
+        if (string[i] == string[i+2]):
+            return True
+    return False
 
-input = open('2015/Day5/input.txt', 'r').read().splitlines()
+
+def containsPair(string):
+    for i in range(0, len(string)-1):
+        pair = string[i:i+2]
+
+        # Search for pairs in beginning of string
+        for j in range(0, i-1):
+            if (pair == string[j:j+2]):
+                return True
+
+        # Search for pairs in end of string
+        for k in range(i+2, len(string)-1):
+            if (pair == string[k:k+2]):
+                return True
+    return False
+
+
+def isStringNice(string):
+    return (containsThreeVowels(string) and
+            containsDoubleLetter(string) and
+            not containsForbiddenSubStrings(string))
+
+
+def isStringNiceNew(string):
+    return (containsPair(string) and containsRepeatedLetter(string))
+
+
+strings = open('2015/Day5/input.txt').read().splitlines()
+
 # Part 1
-nice_strings = 0
-for string in input:
-    if (check_vowels(string) and \
-    check_double_letter(string) and \
-    check_disallowed_combination(string)):
-        nice_strings +=1
-
-print('Nice strings: ' + str(nice_strings))
+nice_counter = sum(list(map(isStringNice, strings)))
+print('Part 1:', nice_counter, 'strings are nice')
 
 # Part 2
-nice_strings = 0
-for string in input:
-    if(check_two_pairs(string) and check_repeat_letter(string)):
-        nice_strings += 1
-
-print('Nice strings: ' + str(nice_strings))
+nice_counter = sum(list(map(isStringNiceNew, strings)))
+print('Part 2:', nice_counter, 'strings are nice')

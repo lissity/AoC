@@ -1,26 +1,20 @@
-input = open('2015/Day1/input.txt').readline()[:-1]
+input_line = open("2015/Day1/input.txt", "r").readline()
 
 # Part 1
-up = 0
-down = 0
-for paranthesis in input:
-    if(paranthesis == '('):
-        up += 1
-    elif(paranthesis == ')'):
-        down += 1
+up = input_line.count('(')
+down = input_line.count(')')
+dest_floor = up - down
+print('Part 1: The instructions takes Santa to floor #' + str(dest_floor))
 
-print('Floor: ' + str(up-down))
-
-#Part 2
-level = 0
-pos = 1
-for c in input:
-    if(c == '('):
-        level += 1
-    elif(c == ')'):
-        level -= 1
-    if(level == -1):
+# Part 2
+floor_no = 0
+index = 0
+for char in input_line:
+    if (char == '('):
+        floor_no += 1
+    if (char == ')'):
+        floor_no -= 1
+    if (floor_no == -1):
+        print('Part 2: The position of the character that causes Sant to enter the basement is ' + str(index+1))
         break
-    pos += 1
-
-print('First basement position: ' + str(pos))
+    index += 1

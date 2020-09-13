@@ -1,69 +1,65 @@
-def read_input():
-    input = open('2015/Day6/input.txt', 'r').read().splitlines()
-    input_list = list()
-    for line in input:
-        split_line = line.split()
-        if(split_line[0] == 'turn'):
-            if(split_line[1]=='on'):
-                command = 'on'
-            elif(split_line[1]=='off'):
-                command = 'off'
-            coord1 = split_line[2].split(',')
-            coord2 = split_line[4].split(',')
-        elif(split_line[0] == 'toggle'):
-            command = 'toggle'
-            coord1 = split_line[1].split(',')
-            coord2 = split_line[3].split(',')
-        list_item = [command, coord1, coord2]
-        input_list.append(list_item)
-    return input_list
+def parseInputLine(line):
+    words = line.split()
+    if (words[0] == 'toggle'):
+        coords1 = tuple(map(int, words[1].split(',')))
+        coords2 = tuple(map(int, words[3].split(',')))
+        return 'toggle', coords1, coords2
+    else:
+        coords1 = tuple(map(int, words[2].split(',')))
+        coords2 = tuple(map(int, words[4].split(',')))
+        if (words[1] == 'on'):
+            return 'enable', coords1, coords2
+        if(words[1] == 'off'):
+            return 'disable', coords1, coords2
 
-input = read_input()
-# Two-dimentional list
-w, h = 1000, 1000
-grid = [[0 for x in range(w)] for y in range(h)]
+
+def controlLight(action, state):
+    if(action == "enable"):
+        return True
+    elif(action == "disable"):
+        return False
+    elif(action == "toggle"):
+        if (state == True):
+            return False
+        elif (state == False):
+            return True
+
+
+def controlLightBrightness(action, state):
+    if (action == "enable"):
+        return state + 1
+    elif (action == "disable"):
+        if ((state - 1) <= 0):
+            return 0
+        else:
+            return state - 1
+    elif (action == "toggle"):
+        return state + 2
+
+
+lines = open('2015/Day6/input.txt').read().splitlines()
 
 # Part 1
-for item in input:
-    for i in range(int(item[1][0]), int(item[2][0])+1):
-        for j in range(int(item[1][1]), int(item[2][1])+1):
-            #print(i,j)
-            if(item[0] == 'on'):
-                grid[i][j] = 1
-            elif(item[0] == 'off'):
-                grid[i][j] = 0
-            elif(item[0] == 'toggle'):
-                if(grid[i][j] == 0):
-                    grid[i][j] = 1
-                elif(grid[i][j] == 1):
-                    grid[i][j] = 0
+light_grid = [[False] * 1000 for i in range(1000)]  # 1000x1000 grid
 
-lit_lights = 0
-for i in range(1000):
-    for j in range(1000):
-        if(grid[i][j] == 1):
-            lit_lights += 1
+for line in lines:
+    action, coord1, coord2 = parseInputLine(line)
+    for y in range(coord1[0], coord2[0]+1):
+        for x in range(coord1[1], coord2[1]+1):
+            light_grid[y][x] = controlLight(action, light_grid[y][x])
 
-print('Lit lights: ' + str(lit_lights))
+light_counter = sum(map(sum, light_grid))
+print('Part 1:', light_counter, 'lights are lit')
 
 # Part 2
-w, h = 1000, 1000
-grid2 = [[0 for x in range(w)] for y in range(h)]
-for item in input:
-    for i in range(int(item[1][0]), int(item[2][0])+1):
-        for j in range(int(item[1][1]), int(item[2][1])+1):
-            #print(i,j)
-            if(item[0] == 'on'):
-                grid2[i][j] += 1
-            elif(item[0] == 'off'):
-                if(grid2[i][j]>0):
-                    grid2[i][j] -= 1
-            elif(item[0] == 'toggle'):
-                grid2[i][j] += 2
+light_grid = [[0] * 1000 for i in range(1000)]  # 1000x1000 grid
 
-brightness = 0
-for i in range(1000):
-    for j in range(1000):
-        brightness += grid2[i][j]
+for line in lines:
+    action, coord1, coord2 = parseInputLine(line)
+    for y in range(coord1[0], coord2[0]+1):
+        for x in range(coord1[1], coord2[1]+1):
+            light_grid[y][x] = controlLightBrightness(action, light_grid[y][x])
 
-print('Brightness: ' + str(brightness))
+
+light_sum = sum(map(sum, light_grid))
+print('Part 2: The total brightness is', light_sum)

@@ -1,39 +1,40 @@
-def move(currentCoord, c):
-    if(c == '<'):
-        newCoord = (currentCoord[0]-1, currentCoord[1])
-    elif(c == '^'):
-        newCoord = (currentCoord[0], currentCoord[1]+1)
-    elif(c == '>'):
-        newCoord = (currentCoord[0]+1, currentCoord[1])
-    elif(c == 'v'):
-        newCoord = (currentCoord[0], currentCoord[1]-1)
-    return newCoord
+def get_new_coord(direction, current_position):
+    x = current_position[0]
+    y = current_position[1]
+    if (direction == '^'):
+        y += 1
+    elif (direction == 'v'):
+        y -= 1
+    elif (direction == '>'):
+        x += 1
+    elif (direction == '<'):
+        x -= 1
+    return (x, y)
+
+
+input = open('2015/Day3/input.txt').readline()
 
 # Part 1
-input = open('2015/Day3/input.txt','r').readline()[:-1]
-currentCoord = (0, 0)
-path = list()
-path.append(currentCoord[:])
+current_position = (0, 0)
+visited_coords = {(0, 0): True}
+for direction in input:
+    current_position = get_new_coord(direction, current_position)
+    visited_coords[current_position] = True
 
-for c in input:
-    currentCoord = move(currentCoord, c)
-    path.append(currentCoord)
-
-print('Houses with at least one present: ' + str(len(set(path))))
+print("Part 1: " + str(len(visited_coords)) +
+      " houses receive at least one present on year 1.")
 
 # Part 2
-santaPos = (0, 0)
-roboPos = (0, 0)
-visitedCoords = list()
-santasTurn = True
-for c in input:
-    if(santasTurn):
-        santaPos = move(santaPos, c)
-        visitedCoords.append(santaPos)
-        santasTurn = False
-    elif(not santasTurn):
-        roboPos = move(roboPos, c)
-        visitedCoords.append(roboPos)
-        santasTurn = True
+santa_current_pos = (0, 0)
+robo_current_pos = (0, 0)
+visited_coords = {(0, 0): True}
+for i in range(0, len(input)):
+    if (i % 2 == 0):  # Santa moves
+        santa_current_pos = get_new_coord(input[i], santa_current_pos)
+        visited_coords[santa_current_pos] = True
+    else:  # Robo-Santa moves
+        robo_current_pos = get_new_coord(input[i], robo_current_pos)
+        visited_coords[robo_current_pos] = True
 
-print('Houses with at least one present (Year 2): ' + str(len(set(visitedCoords))))
+print("Part 2: " + str(len(visited_coords)) +
+      " houses receive at least one present on year 2.")
