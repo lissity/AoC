@@ -1,4 +1,4 @@
-input_line = open("2015/Day1/input.txt", "r").readline()
+input_line = open("2015/Day01/input.txt", "r").readline()
 
 # Part 1
 up = input_line.count('(')

@@ -2,12 +2,9 @@ def look_and_say_round(seq):
     output = []
     i = 0
     while(i < len(seq)):
-        #print(seq[i])
-
         # Append number of digits 
         num_of_digits = 1
         for j in range(i+1, len(seq)):
-            #print(seq[j], end=" ")
             if(seq[i] == seq[j]):
                 num_of_digits += 1
             else:
@@ -17,10 +14,9 @@ def look_and_say_round(seq):
         # Append digit
         output.append(seq[i])
 
+        # Increment read-position
         i += num_of_digits
     return ''.join(output)
-
-
 
 puzzle_input = '1321131112'
 

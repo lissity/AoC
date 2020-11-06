@@ -67,7 +67,7 @@ def getSignalOfWire(wire):
         return result
 
 # Get input        
-lines = open('2015/Day7/input.txt').read().splitlines()
+lines = open('2015/Day07/input.txt').read().splitlines()
 instructions = {}
 for line in lines:
     l = line.split('->')

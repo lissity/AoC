@@ -23,7 +23,7 @@ def distance_to_new_city(distance_list, visited_cities, reverse_sort):
             return item
 
 # Get input
-input = open("2015/Day9/input.txt").read().splitlines()
+input = open("2015/Day09/input.txt").read().splitlines()
 locations = parse_input(input)
 
 # --- Part 1 ---

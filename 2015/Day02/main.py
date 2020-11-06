@@ -17,7 +17,7 @@ def get_bow_length(x, y, z):
 
 
 # Get input
-input = open('2015/Day2/input.txt').read().splitlines()
+input = open('2015/Day02/input.txt').read().splitlines()
 input_list = []
 for row in input:
     row = row.split('x')

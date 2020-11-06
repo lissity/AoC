@@ -57,7 +57,7 @@ def isStringNiceNew(string):
     return (containsPair(string) and containsRepeatedLetter(string))
 
 
-strings = open('2015/Day5/input.txt').read().splitlines()
+strings = open('2015/Day05/input.txt').read().splitlines()
 
 # Part 1
 nice_counter = sum(list(map(isStringNice, strings)))

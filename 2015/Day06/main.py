@@ -37,7 +37,7 @@ def controlLightBrightness(action, state):
         return state + 2
 
 
-lines = open('2015/Day6/input.txt').read().splitlines()
+lines = open('2015/Day06/input.txt').read().splitlines()
 
 # Part 1
 light_grid = [[False] * 1000 for i in range(1000)]  # 1000x1000 grid

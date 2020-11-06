@@ -22,7 +22,7 @@ def getEncodedLength(string):
             length +=1
     return length
 
-strings = open('2015/Day8/input.txt').read().splitlines()
+strings = open('2015/Day08/input.txt').read().splitlines()
 
 # --- Part 1 ---
 code_representation_len = len(''.join(strings))

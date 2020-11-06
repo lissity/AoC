@@ -12,7 +12,7 @@ def get_new_coord(direction, current_position):
     return (x, y)
 
 
-input = open('2015/Day3/input.txt').readline()
+input = open('2015/Day03/input.txt').readline()
 
 # Part 1
 current_position = (0, 0)
